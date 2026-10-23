@@ -7,7 +7,7 @@ Este servicio usa `bittopos-core` como autoridad para el esquema y su módulo SQ
 ## Requisitos
 
 - Linux de 64 bits compatible con Rust estable.
-- Rust/Cargo, Git y las herramientas de compilación de C.
+- Rust estable/Cargo instalado mediante [rustup](https://rustup.rs/), Git y las herramientas de compilación de C.
 - SQLite de desarrollo (por ejemplo, `libsqlite3-dev` en Debian/Ubuntu).
 - Para el servicio de producción, systemd. El instalador no requiere AWS, un dominio ni Cloudflare.
 
@@ -33,9 +33,9 @@ cargo run --bin bittopos-server
 
 ## Instalación en Linux con systemd
 
-El instalador instala dependencias del sistema, compila el binario release y configura el servicio `bittopos-server` con un usuario de sistema sin privilegios. Está pensado para Ubuntu/Debian y otras distribuciones que dispongan de uno de los gestores de paquetes compatibles en el script.
+El instalador instala dependencias del sistema, verifica que Rust/Cargo ya esté instalado, compila el binario release y configura el servicio `bittopos-server` con un usuario de sistema sin privilegios. Está pensado para Ubuntu/Debian y otras distribuciones que dispongan de uno de los gestores de paquetes compatibles en el script.
 
-Revisa el script antes de ejecutarlo. Desde una copia local del repositorio:
+Instala Rust estable primero si aún no está disponible (consulta [rustup.rs](https://rustup.rs/)). Después, revisa el script antes de ejecutarlo. Desde una copia local del repositorio:
 
 ```bash
 sudo bash scripts/install.sh
