@@ -19,7 +19,7 @@ trap cleanup EXIT
 
 [[ "$(id -u)" -eq 0 ]] || die "Ejecuta como root: sudo bash scripts/install.sh"
 command -v apt-get >/dev/null 2>&1 || command -v dnf >/dev/null 2>&1 || command -v apk >/dev/null 2>&1 || command -v pacman >/dev/null 2>&1 || die "Distribución no compatible: instala git, Rust/Cargo y SQLite manualmente."
-command -v systemctl >/dev/null 2>&1 || die "Este instalador requiere systemd. Para OpenRC consulta deploy/openrc/bittopos-server."
+command -v systemctl >/dev/null 2>&1 || die "Este instalador requiere systemd."
 
 install_deps() {
   if command -v apt-get >/dev/null 2>&1; then
@@ -34,20 +34,9 @@ install_deps() {
   fi
 }
 
-if ! command -v cargo >/dev/null 2>&1; then
-  log "Instalando Rust estable (requerido para compilar el servidor)."
-  if ! command -v curl >/dev/null 2>&1; then install_deps; fi
-  runuser -u "${SUDO_USER:-root}" -- sh -c 'curl --proto "=https" --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal' 2>/dev/null || {
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-  }
-  export PATH="${HOME}/.cargo/bin:/root/.cargo/bin:${PATH}"
-fi
-
 install_deps
-if ! command -v cargo >/dev/null 2>&1; then
-  [[ -x /root/.cargo/bin/cargo ]] && export PATH="/root/.cargo/bin:${PATH}"
-fi
-command -v cargo >/dev/null 2>&1 || die "Cargo no está disponible. Instala Rust estable y vuelve a ejecutar."
+export PATH="/root/.cargo/bin:${PATH}"
+command -v cargo >/dev/null 2>&1 || die "Cargo no está disponible. Instala Rust estable con rustup antes de ejecutar el instalador."
 command -v git >/dev/null 2>&1 || die "Git no está disponible."
 
 if ! id "${SERVICE_USER}" >/dev/null 2>&1; then
