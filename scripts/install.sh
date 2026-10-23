@@ -100,7 +100,7 @@ log "Descargando ${REPO_URL} (ref: ${REF}) y compilando release."
 git clone --depth 1 --branch "${REF}" "${REPO_URL}" "${TMP_DIR}/source"
 (
   cd "${TMP_DIR}/source"
-  cargo build --release --locked --bin bittopos-server
+  cargo build --release --bin bittopos-server
 )
 install -o root -g root -m 0755 "${TMP_DIR}/source/target/release/bittopos-server" "${BIN_DIR}/bittopos-server"
 
