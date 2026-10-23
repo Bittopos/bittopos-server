@@ -1,0 +1,25 @@
+[Unit]
+Description=Bittopos HTTP Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bittopos
+Group=bittopos
+EnvironmentFile=/etc/bittopos/bittopos.env
+WorkingDirectory=/var/lib/bittopos
+ExecStart=/opt/bittopos/bin/bittopos-server
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/bittopos
+RestrictSUIDSGID=true
+LockPersonality=true
+
+[Install]
+WantedBy=multi-user.target
